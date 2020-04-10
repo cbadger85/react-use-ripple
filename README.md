@@ -1,8 +1,12 @@
 # react-use-ripple
 
-> A react hook to create material design ripples for components
+> A react hook to implement [Material Design ripple overlays](https://www.google.com)
 
 [![NPM](https://img.shields.io/npm/v/react-use-ripple.svg)](https://www.npmjs.com/package/react-use-ripple) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+## Demo
+
+[![Edit react-use-ripple demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/heuristic-currying-kp08n?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Install
 
@@ -11,6 +15,8 @@ npm install --save react-use-ripple
 ```
 
 ## Usage
+
+`useRipple` only requires the ref of the DOM element that the ripple should be applied too.
 
 ```tsx
 import React from "react";
@@ -30,6 +36,8 @@ const App = () => {
 
 export default App;
 ```
+
+`useRipple` can be used as many times as neccessary inside a component. Keep the rules-of-hooks in mind when using use `useRipple` and do not conditionally render it. `useRipple` can handle null references, so if an element using a the ripple effect is conditionally rendered, the effect will applied when the component mounts.
 
 ## License
 
