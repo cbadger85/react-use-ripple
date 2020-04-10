@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React, { useRef } from 'react';
-import { useRipple } from '.';
+import { useRipple } from '..';
 
 const TestComponent: React.FC<Props> = ({ position }) => {
   const ref = useRef<HTMLButtonElement>(null);
