@@ -1,10 +1,16 @@
-import React from 'react'
-
-import { ExampleComponent } from 'use-ripple'
-import 'use-ripple/dist/index.css'
+import React from "react";
+import { useRipple } from "use-ripple";
+import { useRef } from "react";
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
-}
+  const ref = useRef();
+  useRipple(ref);
 
-export default App
+  return (
+    <button className="btn" ref={ref} style={{ position: "initial" }}>
+      Button
+    </button>
+  );
+};
+
+export default App;

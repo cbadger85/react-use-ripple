@@ -13,16 +13,22 @@ npm install --save use-ripple
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import React from "react";
+import { useRipple } from "use-ripple";
+import { useRef } from "react";
 
-import MyComponent from 'use-ripple'
-import 'use-ripple/dist/index.css'
+const App = () => {
+  const ref = useRef();
+  useRipple(ref);
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
+  return (
+    <button className="btn" ref={ref}>
+      Button
+    </button>
+  );
+};
+
+export default App;
 ```
 
 ## License
