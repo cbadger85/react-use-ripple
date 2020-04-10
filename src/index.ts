@@ -25,7 +25,7 @@ style.innerHTML = keyframes;
 document.querySelector('head')?.appendChild(style);
 
 const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
-  const { top, left } = element.getBoundingClientRect();
+  const { height, width, top, left } = element.getBoundingClientRect();
   const x = e.clientX - left;
   const y = e.clientY - top;
 
@@ -37,9 +37,16 @@ const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
     RIPPLE_SIZE,
   );
 
+  const positionTop = e.clientX
+    ? y - rippleSize / 2
+    : rippleSize / 2 - height / 2;
+  const positionLeft = e.clientY
+    ? x - rippleSize / 2
+    : width / 2 - rippleSize / 2;
+
   span.style.cssText = `
-    top: ${y - rippleSize / 2}px;
-    left: ${x - rippleSize / 2}px;
+    top: ${positionTop}px;
+    left: ${positionLeft}px;
     position: absolute;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.3);

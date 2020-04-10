@@ -1,13 +1,13 @@
 {
-  "name": "use-ripple-example",
-  "homepage": "https://cbadger85.github.io/use-ripple",
+  "name": "react-use-ripple-example",
+  "homepage": "https://github.com/cbadger85/react-use-ripple",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
     "react-scripts": "link:../node_modules/react-scripts",
-    "use-ripple": "link:.."
+    "react-use-ripple": "link:.."
   },
   "scripts": {
     "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",

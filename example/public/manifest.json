@@ -1,6 +1,6 @@
 {
-  "short_name": "use-ripple",
-  "name": "use-ripple",
+  "short_name": "react-use-ripple",
+  "name": "react-use-ripple",
   "icons": [
     {
       "src": "favicon.ico",
