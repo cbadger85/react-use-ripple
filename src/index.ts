@@ -29,8 +29,6 @@ const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
   const x = e.clientX - left;
   const y = e.clientY - top;
 
-  const span = document.createElement('span');
-
   const rippleSize = Math.min(
     element.clientHeight,
     element.clientWidth,
@@ -43,6 +41,8 @@ const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
   const positionLeft = e.clientY
     ? x - rippleSize / 2
     : width / 2 - rippleSize / 2;
+
+  const span = document.createElement('span');
 
   span.style.cssText = `
     top: ${positionTop}px;
