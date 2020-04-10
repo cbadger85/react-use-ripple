@@ -59,9 +59,9 @@ const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
 
   element.appendChild(span);
 
-  setTimeout(() => {
+  span.addEventListener('animationend', () => {
     element.removeChild(span);
-  }, ANIMATION_LENGTH);
+  });
 };
 
 export const useRipple = (ref: RefObject<HTMLElement>) => {

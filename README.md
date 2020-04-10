@@ -19,9 +19,9 @@ npm install --save react-use-ripple
 `useRipple` only requires the ref of the DOM element that the ripple should be applied too.
 
 ```tsx
-import React from "react";
-import { useRipple } from "react-use-ripple";
-import { useRef } from "react";
+import React from 'react';
+import { useRipple } from 'react-use-ripple';
+import { useRef } from 'react';
 
 const App = () => {
   const ref = useRef();
@@ -47,6 +47,12 @@ export default App;
 
 **Q.** What happens when the JSX with the ref is conditionally rendered? Will the ripple still work when the component mounts?  
 **A.** `useRipple` can handle null references, so if an element using a the ripple effect is conditionally rendered, the effect will applied when the component mounts.
+
+**Q.** How does adding a ripple to an element affect its css?  
+**A.** `useRipple` does two things to an element's css:
+
+- If an element's position is not set (i.e. its position is `initial` or `static`) than `position: relative` is added to the element.
+- `useRipple` sets the overflow of the element to `hidden`, to prevent the ripple from extending outside the element.
 
 ## License
 

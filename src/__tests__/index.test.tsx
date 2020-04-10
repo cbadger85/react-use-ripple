@@ -49,7 +49,7 @@ describe('useRipple', () => {
 
     fireEvent.click(screen.getByText('Button'));
 
-    jest.runAllTimers();
+    fireEvent.animationEnd(container.querySelector('span') as HTMLElement);
 
     const finalRipple = container.querySelector('span');
     expect(finalRipple).toBeFalsy();
