@@ -54,6 +54,8 @@ export default App;
 - If an element's position is not set (i.e. its position is `initial` or `static`) than `position: relative` is added to the element.
 - `useRipple` sets the overflow of the element to `hidden`, to prevent the ripple from extending outside the element.
 
+**NOTE:** If your using child or descendant selectors to style `span` elements, it may affect the css of the ripple. To avoid this, use specificity to target span elements that you wish to style.
+
 ## License
 
 MIT © [Charles Badger](https://github.com/cbadger85)

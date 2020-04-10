@@ -23,9 +23,24 @@ interface Props {
     | 'initial';
 }
 
+const NullComponent = () => {
+  const ref = useRef<HTMLElement>(null);
+  useRipple(ref);
+
+  return <div>null</div>;
+};
+
 beforeAll(jest.useFakeTimers);
 
 describe('useRipple', () => {
+  it('should not crash if the ref is null', async () => {
+    render(<NullComponent />);
+
+    const element = screen.getByText('null');
+
+    expect(element).toBeTruthy();
+  });
+
   it('should not have the ripple created or keyframes created on mount', async () => {
     const { container } = render(<TestComponent />);
 
@@ -42,6 +57,28 @@ describe('useRipple', () => {
     const ripple = container.querySelector('span');
 
     expect(ripple).toBeTruthy();
+  });
+
+  it('should show the ripple at the point of click', () => {
+    const { container } = render(<TestComponent />);
+
+    fireEvent.click(screen.getByText('Button'), { clientX: 5, clientY: 5 });
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple?.style.top).toBe('5px');
+    expect(ripple?.style.left).toBe('5px');
+  });
+
+  it('should show the ripple in the middle of the element if the event was not fired from a mouse click', () => {
+    const { container } = render(<TestComponent />);
+
+    fireEvent.click(screen.getByText('Button'), { clientX: 0, clientY: 0 });
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple?.style.top).toBe('0px');
+    expect(ripple?.style.left).toBe('0px');
   });
 
   it('should remove the ripple and keyframe after the animation', async () => {

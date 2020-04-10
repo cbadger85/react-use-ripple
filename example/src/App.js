@@ -1,6 +1,6 @@
-import React from "react";
-import { useRipple } from "react-use-ripple";
-import { useRef } from "react";
+import React from 'react';
+import { useRipple } from 'react-use-ripple';
+import { useRef } from 'react';
 
 const App = () => {
   const ref = useRef();

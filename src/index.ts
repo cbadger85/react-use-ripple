@@ -8,7 +8,7 @@ const style = document.createElement('style');
 style.type = 'text/css';
 
 const keyframes = `
-  @keyframes ripple {
+  @keyframes use-ripple-animation {
     from {
       opacity: 1;
       transform: scale(0);
@@ -29,11 +29,7 @@ const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
   const x = e.clientX - left;
   const y = e.clientY - top;
 
-  const rippleSize = Math.min(
-    element.clientHeight,
-    element.clientWidth,
-    RIPPLE_SIZE,
-  );
+  const rippleSize = Math.min(height, width, RIPPLE_SIZE);
 
   const positionTop = e.clientX
     ? y - rippleSize / 2
@@ -54,7 +50,7 @@ const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
     width: ${rippleSize}px;
     height: ${rippleSize}px;
 
-    animation: ripple ${ANIMATION_LENGTH}ms ease-in;
+    animation: use-ripple-animation ${ANIMATION_LENGTH}ms ease-in;
   `;
 
   element.appendChild(span);
