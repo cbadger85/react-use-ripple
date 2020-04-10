@@ -37,8 +37,17 @@ const App = () => {
 export default App;
 ```
 
-`useRipple` can be used as many times as neccessary inside a component. Keep the rules-of-hooks in mind when using use `useRipple` and do not conditionally render it. `useRipple` can handle null references, so if an element using a the ripple effect is conditionally rendered, the effect will applied when the component mounts.
+## FAQ
+
+**Q.** Can `useRipple` be used more than once in a component?  
+**A.** `useRipple` can be used as many times as neccessary inside a component.
+
+**Q.** Can the `useRipple` hook be conditionally rendered?  
+**A.** No. Keep the rules-of-hooks in mind when using use `useRipple` and do not conditionally render it.
+
+**Q.** What happens when the JSX with the ref is conditionally rendered? Will the ripple still work when the component mounts?  
+**A.** `useRipple` can handle null references, so if an element using a the ripple effect is conditionally rendered, the effect will applied when the component mounts.
 
 ## License
 
-MIT © [cbadger85](https://github.com/cbadger85)
+MIT © [Charles Badger](https://github.com/cbadger85)
