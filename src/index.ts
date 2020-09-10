@@ -60,16 +60,22 @@ const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
   });
 };
 
-interface RippleOptions {
+export interface RippleOptions {
   disabled?: boolean;
 }
+
+const defaultOptions: RippleOptions = {
+  disabled: false,
+};
 
 export const useRipple = (
   ref: RefObject<HTMLElement>,
   options?: RippleOptions,
 ) => {
+  const rippleOptions: RippleOptions = { ...defaultOptions, ...options };
+
   useEffect(() => {
-    if (options?.disabled || !ref?.current) {
+    if (rippleOptions?.disabled || !ref?.current) {
       return;
     }
 
