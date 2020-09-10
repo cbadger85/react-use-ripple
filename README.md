@@ -37,6 +37,14 @@ const App = () => {
 export default App;
 ```
 
+## Arguments
+
+`useRipple(ref [, options])`
+
+- ref `<RefObject<HTMLElement>>`
+- options `<Object>`
+  - disabled `<boolean>` **Default** `false`
+
 ## FAQ
 
 **Q.** Can `useRipple` be used more than once in a component?  
