@@ -13,6 +13,17 @@ const TestComponent: React.FC<Props> = ({ position }) => {
   );
 };
 
+const DisabledTestComponent: React.FC<Props> = ({ position }) => {
+  const ref = useRef<HTMLButtonElement>(null);
+  useRipple(ref, { disabled: true });
+
+  return (
+    <button id="btn" ref={ref} style={{ position }}>
+      Button
+    </button>
+  );
+};
+
 interface Props {
   position?:
     | 'absolute'
@@ -57,6 +68,16 @@ describe('useRipple', () => {
     const ripple = container.querySelector('span');
 
     expect(ripple).toBeTruthy();
+  });
+
+  it('should not create the ripple and keyframes on click if the hook is disabled', async () => {
+    const { container } = render(<DisabledTestComponent />);
+
+    fireEvent.click(screen.getByText('Button'));
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple).toBeFalsy();
   });
 
   it('should show the ripple at the point of click', () => {
