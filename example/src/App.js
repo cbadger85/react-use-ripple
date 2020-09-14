@@ -4,7 +4,7 @@ import { useRef } from 'react';
 
 const App = () => {
   const ref = useRef();
-  useRipple(ref, { minRippleSize: 10000 });
+  useRipple(ref);
 
   return (
     <button className="btn" ref={ref}>
