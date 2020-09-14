@@ -24,17 +24,30 @@ style.innerHTML = keyframes;
 
 document.querySelector('head')?.appendChild(style);
 
-const createRipple = (element: HTMLElement) => (e: MouseEvent) => {
+type RippleEvent = {
+  clientX?: number;
+  clientY?: number;
+};
+
+const defaultEvent: Required<RippleEvent> = {
+  clientX: 0,
+  clientY: 0,
+};
+
+const createRipple = (element: HTMLElement) => (e?: RippleEvent) => {
+  const clientX = e?.clientX || defaultEvent.clientX;
+  const clientY = e?.clientY || defaultEvent.clientY;
+
   const { height, width, top, left } = element.getBoundingClientRect();
-  const x = e.clientX - left;
-  const y = e.clientY - top;
+  const x = clientX - left;
+  const y = clientY - top;
 
   const rippleSize = Math.min(height, width, RIPPLE_SIZE);
 
-  const positionTop = e.clientX
+  const positionTop = clientX
     ? y - rippleSize / 2
     : rippleSize / 2 - height / 2;
-  const positionLeft = e.clientY
+  const positionLeft = clientY
     ? x - rippleSize / 2
     : width / 2 - rippleSize / 2;
 
@@ -92,8 +105,18 @@ export const useRipple = (
 
     const ripple = createRipple(element);
 
-    element.addEventListener('mousedown', ripple);
+    const keyboardRipple = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        ripple();
+      }
+    };
 
-    return () => element.removeEventListener('mousedown', ripple);
+    element.addEventListener('mousedown', ripple);
+    element.addEventListener('keydown', keyboardRipple);
+
+    return () => {
+      element.removeEventListener('mousedown', ripple);
+      element.removeEventListener('keydown', keyboardRipple);
+    };
   });
 };

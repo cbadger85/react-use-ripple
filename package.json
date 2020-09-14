@@ -1,6 +1,6 @@
 {
   "name": "react-use-ripple",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A react hook to create material design ripples for components",
   "author": "cbadger85",
   "keywords": [

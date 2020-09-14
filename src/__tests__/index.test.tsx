@@ -94,7 +94,7 @@ describe('useRipple', () => {
   it('should show the ripple in the middle of the element if the event was not fired from a mouse click', () => {
     const { container } = render(<TestComponent />);
 
-    fireEvent.mouseDown(screen.getByText('Button'), { clientX: 0, clientY: 0 });
+    fireEvent.keyDown(screen.getByText('Button'), { key: 'Enter' });
 
     const ripple = container.querySelector('span');
 
