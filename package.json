@@ -1,6 +1,6 @@
 {
   "name": "react-use-ripple",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "A react hook to create material design ripples for components",
   "author": "cbadger85",
   "keywords": [
@@ -25,9 +25,7 @@
     "test:build": "run-s build",
     "test:lint": "eslint .",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom --coverage",
-    "test:watch": "react-scripts test --env=jsdom",
-    "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "test:watch": "react-scripts test --env=jsdom"
   },
   "peerDependencies": {
     "react": "^16.8.0"
