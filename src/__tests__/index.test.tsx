@@ -60,30 +60,30 @@ describe('useRipple', () => {
     expect(ripple).toBeFalsy();
   });
 
-  it('should create the ripple and keyframes on click', async () => {
+  it('should create the ripple and keyframes on mouse down', async () => {
     const { container } = render(<TestComponent />);
 
-    fireEvent.click(screen.getByText('Button'));
+    fireEvent.mouseDown(screen.getByText('Button'));
 
     const ripple = container.querySelector('span');
 
     expect(ripple).toBeTruthy();
   });
 
-  it('should not create the ripple and keyframes on click if the hook is disabled', async () => {
+  it('should not create the ripple and keyframes on mouse down if the hook is disabled', async () => {
     const { container } = render(<DisabledTestComponent />);
 
-    fireEvent.click(screen.getByText('Button'));
+    fireEvent.mouseDown(screen.getByText('Button'));
 
     const ripple = container.querySelector('span');
 
     expect(ripple).toBeFalsy();
   });
 
-  it('should show the ripple at the point of click', () => {
+  it('should show the ripple at the point of mouse down', () => {
     const { container } = render(<TestComponent />);
 
-    fireEvent.click(screen.getByText('Button'), { clientX: 5, clientY: 5 });
+    fireEvent.mouseDown(screen.getByText('Button'), { clientX: 5, clientY: 5 });
 
     const ripple = container.querySelector('span');
 
@@ -94,7 +94,7 @@ describe('useRipple', () => {
   it('should show the ripple in the middle of the element if the event was not fired from a mouse click', () => {
     const { container } = render(<TestComponent />);
 
-    fireEvent.click(screen.getByText('Button'), { clientX: 0, clientY: 0 });
+    fireEvent.mouseDown(screen.getByText('Button'), { clientX: 0, clientY: 0 });
 
     const ripple = container.querySelector('span');
 
@@ -105,7 +105,7 @@ describe('useRipple', () => {
   it('should remove the ripple and keyframe after the animation', async () => {
     const { container } = render(<TestComponent />);
 
-    fireEvent.click(screen.getByText('Button'));
+    fireEvent.mouseDown(screen.getByText('Button'));
 
     fireEvent.animationEnd(container.querySelector('span') as HTMLElement);
 

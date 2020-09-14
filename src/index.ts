@@ -92,8 +92,8 @@ export const useRipple = (
 
     const ripple = createRipple(element);
 
-    element.addEventListener('click', ripple);
+    element.addEventListener('mousedown', ripple);
 
-    return () => element.removeEventListener('click', ripple);
+    return () => element.removeEventListener('mousedown', ripple);
   });
 };
