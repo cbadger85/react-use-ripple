@@ -2,10 +2,9 @@ import { RefObject, useEffect } from 'react';
 
 const ANIMATION_LENGTH = 700;
 const RIPPLE_SIZE = 100;
+const RIPPLE_COLOR = 'rgba(0, 0, 0, 0.3)';
 
 const style = document.createElement('style');
-
-style.type = 'text/css';
 
 const keyframes = `
   @keyframes use-ripple-animation {
@@ -24,17 +23,26 @@ style.innerHTML = keyframes;
 
 document.querySelector('head')?.appendChild(style);
 
-type RippleEvent = {
+export interface RippleOptions {
+  disabled?: boolean;
+  rippleColor?: string;
+  animationLength?: number;
+  rippleSize?: number;
+}
+
+interface RippleEvent {
   clientX?: number;
   clientY?: number;
-};
+}
 
 const defaultEvent: Required<RippleEvent> = {
   clientX: 0,
   clientY: 0,
 };
 
-const createRipple = (element: HTMLElement) => (e?: RippleEvent) => {
+const createRipple = (element: HTMLElement, options?: RippleOptions) => (
+  e?: RippleEvent,
+) => {
   const clientX = e?.clientX || defaultEvent.clientX;
   const clientY = e?.clientY || defaultEvent.clientY;
 
@@ -42,7 +50,11 @@ const createRipple = (element: HTMLElement) => (e?: RippleEvent) => {
   const x = clientX - left;
   const y = clientY - top;
 
-  const rippleSize = Math.min(height, width, RIPPLE_SIZE);
+  const rippleSize = Math.min(
+    height,
+    width,
+    options?.rippleSize || RIPPLE_SIZE,
+  );
 
   const positionTop = clientX
     ? y - rippleSize / 2
@@ -58,12 +70,13 @@ const createRipple = (element: HTMLElement) => (e?: RippleEvent) => {
     left: ${positionLeft}px;
     position: absolute;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: ${options?.rippleColor || RIPPLE_COLOR};
     pointer-events: none;
     width: ${rippleSize}px;
     height: ${rippleSize}px;
 
-    animation: use-ripple-animation ${ANIMATION_LENGTH}ms ease-in;
+    animation: use-ripple-animation ${options?.animationLength ||
+      ANIMATION_LENGTH}ms ease-in;
   `;
 
   element.appendChild(span);
@@ -73,22 +86,12 @@ const createRipple = (element: HTMLElement) => (e?: RippleEvent) => {
   });
 };
 
-export interface RippleOptions {
-  disabled?: boolean;
-}
-
-const defaultOptions: RippleOptions = {
-  disabled: false,
-};
-
 export const useRipple = (
   ref: RefObject<HTMLElement>,
   options?: RippleOptions,
 ) => {
-  const rippleOptions: RippleOptions = { ...defaultOptions, ...options };
-
   useEffect(() => {
-    if (rippleOptions?.disabled || !ref?.current) {
+    if (options?.disabled || !ref?.current) {
       return;
     }
 
@@ -103,10 +106,10 @@ export const useRipple = (
         : elementPosition;
     element.style.overflow = 'hidden';
 
-    const ripple = createRipple(element);
+    const ripple = createRipple(element, options);
 
     const keyboardRipple = (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' || e.key === ' ') {
         ripple();
       }
     };

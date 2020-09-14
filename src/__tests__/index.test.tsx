@@ -1,37 +1,26 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import React, { useRef } from 'react';
-import { useRipple } from '..';
+import React, { CSSProperties, useRef } from 'react';
+import { RippleOptions, useRipple } from '..';
 
-const TestComponent: React.FC<Props> = ({ position }) => {
+const TestComponent: React.FC<Props> = ({
+  style,
+  disabled,
+  animationLength,
+  rippleColor,
+  rippleSize,
+}) => {
   const ref = useRef<HTMLButtonElement>(null);
-  useRipple(ref);
+  useRipple(ref, { disabled, animationLength, rippleColor, rippleSize });
 
   return (
-    <button id="btn" ref={ref} style={{ position }}>
+    <button id="btn" ref={ref} style={{ ...style }}>
       Button
     </button>
   );
 };
 
-const DisabledTestComponent: React.FC<Props> = ({ position }) => {
-  const ref = useRef<HTMLButtonElement>(null);
-  useRipple(ref, { disabled: true });
-
-  return (
-    <button id="btn" ref={ref} style={{ position }}>
-      Button
-    </button>
-  );
-};
-
-interface Props {
-  position?:
-    | 'absolute'
-    | 'relative'
-    | 'sticky'
-    | 'fixed'
-    | 'static'
-    | 'initial';
+interface Props extends RippleOptions {
+  style?: CSSProperties;
 }
 
 const NullComponent = () => {
@@ -71,7 +60,7 @@ describe('useRipple', () => {
   });
 
   it('should not create the ripple and keyframes on mouse down if the hook is disabled', async () => {
-    const { container } = render(<DisabledTestComponent />);
+    const { container } = render(<TestComponent disabled />);
 
     fireEvent.mouseDown(screen.getByText('Button'));
 
@@ -102,10 +91,21 @@ describe('useRipple', () => {
     expect(ripple?.style.left).toBe('0px');
   });
 
+  it('should show the ripple in the middle of the element if the event was fired from an spacebar press', () => {
+    const { container } = render(<TestComponent />);
+
+    fireEvent.keyDown(screen.getByText('Button'), { key: ' ' });
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple?.style.top).toBe('0px');
+    expect(ripple?.style.left).toBe('0px');
+  });
+
   it('should not show the ripple in the middle of the element if the event was fired from a keydown but not an enter press', () => {
     const { container } = render(<TestComponent />);
 
-    fireEvent.keyDown(screen.getByText('Button'), { key: 'Space' });
+    fireEvent.keyDown(screen.getByText('Button'), { key: 'Tab' });
 
     const ripple = container.querySelector('span');
 
@@ -140,12 +140,34 @@ describe('useRipple', () => {
   });
 
   it(`should not overwrite position style if element is already positioned`, () => {
-    const { container } = render(<TestComponent position="fixed" />);
+    const { container } = render(
+      <TestComponent style={{ position: 'fixed' }} />,
+    );
 
     const button = container.querySelector('#btn') as HTMLElement;
 
     const position = button.style.position;
 
     expect(position).toBe('fixed');
+  });
+
+  it('should change the ripple color if specified', () => {
+    const { container } = render(<TestComponent rippleColor="blue" />);
+
+    fireEvent.mouseDown(screen.getByText('Button'), { clientX: 5, clientY: 5 });
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple?.style.backgroundColor).toBe('blue');
+  });
+
+  it('should change the ripple animation length if specified', () => {
+    const { container } = render(<TestComponent animationLength={3000} />);
+
+    fireEvent.mouseDown(screen.getByText('Button'), { clientX: 5, clientY: 5 });
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple?.style.animation).toBe('use-ripple-animation 3000ms ease-in');
   });
 });

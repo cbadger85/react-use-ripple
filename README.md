@@ -44,6 +44,15 @@ export default App;
 - ref `<RefObject<HTMLElement>>`
 - options `<Object>`
   - disabled `<boolean>` **Default** `false`
+  - rippleColor\* `<string>` **Default** `rgba(0, 0, 0, 0.3)`
+  - animationLength** `<number>` **Default\*\* `700`
+  - rippleSize**\* `<number>` **Default\*\* `100`
+
+> \* `rippleColor` can be any valid css color that is supported by the targeted browsers
+>
+> \*\* `animationLength` will always be in milliseconds
+>
+> \*\*\* `rippleSize` will use the smallest value of the length, width, or specified size. if specifying a size, the unit will be in pixels.
 
 ## FAQ
 
