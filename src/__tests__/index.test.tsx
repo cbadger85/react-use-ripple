@@ -91,7 +91,7 @@ describe('useRipple', () => {
     expect(ripple?.style.left).toBe('5px');
   });
 
-  it('should show the ripple in the middle of the element if the event was not fired from a mouse click', () => {
+  it('should show the ripple in the middle of the element if the event was fired from an enter press', () => {
     const { container } = render(<TestComponent />);
 
     fireEvent.keyDown(screen.getByText('Button'), { key: 'Enter' });
@@ -100,6 +100,16 @@ describe('useRipple', () => {
 
     expect(ripple?.style.top).toBe('0px');
     expect(ripple?.style.left).toBe('0px');
+  });
+
+  it('should not show the ripple in the middle of the element if the event was fired from a keydown but not an enter press', () => {
+    const { container } = render(<TestComponent />);
+
+    fireEvent.keyDown(screen.getByText('Button'), { key: 'Space' });
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple).toBeFalsy();
   });
 
   it('should remove the ripple and keyframe after the animation', async () => {
