@@ -59,6 +59,9 @@ export default App;
 **Q.** Can `useRipple` be used more than once in a component?  
 **A.** `useRipple` can be used as many times as neccessary inside a component.
 
+**Q.** Does `useRipple` support SSR?  
+**A.** Yup! Thanks to a recent PR, `useRipple` now supports SSR (as of version 1.4.0)
+
 **Q.** Can the `useRipple` hook be conditionally rendered?  
 **A.** No. Keep the rules-of-hooks in mind when using use `useRipple` and do not conditionally render it.
 
