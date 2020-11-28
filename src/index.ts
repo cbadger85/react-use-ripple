@@ -30,21 +30,34 @@ export interface RippleOptions {
   rippleColor?: string;
   animationLength?: number;
   rippleSize?: number;
+  excludedRefs?: RefObject<HTMLElement>[];
 }
 
 interface RippleEvent {
   clientX?: number;
   clientY?: number;
+  target: EventTarget | null;
 }
 
 const defaultEvent: Required<RippleEvent> = {
   clientX: 0,
   clientY: 0,
+  target: null,
 };
 
 const createRipple = (element: HTMLElement, options?: RippleOptions) => (
   e?: RippleEvent,
 ) => {
+  const isExcluded = (options?.excludedRefs || []).some(
+    ref =>
+      !(e?.target as Node).contains(ref.current) ||
+      ref.current?.isSameNode(e?.target as Node),
+  );
+
+  if (isExcluded) {
+    return;
+  }
+
   const clientX = e?.clientX || defaultEvent.clientX;
   const clientY = e?.clientY || defaultEvent.clientY;
 
@@ -77,7 +90,7 @@ const createRipple = (element: HTMLElement, options?: RippleOptions) => (
     width: ${rippleSize}px;
     height: ${rippleSize}px;
     animation: use-ripple-animation ${options?.animationLength ||
-    ANIMATION_LENGTH}ms ease-in;
+      ANIMATION_LENGTH}ms ease-in;
   `;
 
   element.appendChild(span);

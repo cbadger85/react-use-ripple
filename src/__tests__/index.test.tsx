@@ -8,19 +8,33 @@ const TestComponent: React.FC<Props> = ({
   animationLength,
   rippleColor,
   rippleSize,
+  excludeRef,
 }) => {
   const ref = useRef<HTMLButtonElement>(null);
-  useRipple(ref, { disabled, animationLength, rippleColor, rippleSize });
+  const excludedRef = useRef<HTMLDivElement>(null);
+  useRipple(ref, {
+    disabled,
+    animationLength,
+    rippleColor,
+    rippleSize,
+    excludedRefs: excludeRef ? [excludedRef] : undefined,
+  });
 
   return (
-    <button id="btn" ref={ref} style={{ ...style }}>
+    <button
+      id="btn"
+      ref={ref}
+      style={{ display: excludeRef ? 'block' : undefined, ...style }}
+    >
       Button
+      {excludeRef && <div ref={excludedRef}>test</div>}
     </button>
   );
 };
 
 interface Props extends RippleOptions {
   style?: CSSProperties;
+  excludeRef?: boolean;
 }
 
 const NullComponent = () => {
@@ -57,6 +71,16 @@ describe('useRipple', () => {
     const ripple = container.querySelector('span');
 
     expect(ripple).toBeTruthy();
+  });
+
+  it('should not ripple if an excluded element clicked and the ref is added to the excludedRefs list', async () => {
+    const { container } = render(<TestComponent excludeRef />);
+
+    fireEvent.mouseDown(screen.getByText('test'));
+
+    const ripple = container.querySelector('span');
+
+    expect(ripple).toBeFalsy();
   });
 
   it('should not create the ripple and keyframes on mouse down if the hook is disabled', async () => {

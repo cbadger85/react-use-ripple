@@ -47,12 +47,15 @@ export default App;
   - rippleColor\* `<string>` **Default** `rgba(0, 0, 0, 0.3)`
   - animationLength** `<number>` **Default\*\* `700`
   - rippleSize**\* `<number>` **Default\*\* `100`
+  - excludedRefs**\*\* `<RefObject<HTMLElement>>[]` **Default\*\* `[]`
 
 > \* `rippleColor` can be any valid css color that is supported by the targeted browsers
 >
 > \*\* `animationLength` will always be in milliseconds
 >
 > \*\*\* `rippleSize` will use the smallest value of the length, width, or specified size. if specifying a size, the unit will be in pixels.
+>
+> \*\*\*\* `excludedRefs` a list of child refs that should not cause a ripple when clicked
 
 ## FAQ
 
