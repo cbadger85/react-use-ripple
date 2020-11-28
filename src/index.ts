@@ -50,7 +50,7 @@ const createRipple = (element: HTMLElement, options?: RippleOptions) => (
 ) => {
   const isExcluded = (options?.excludedRefs || []).some(
     ref =>
-      (!!ref.current && !(e?.target as Node).contains(ref.current)) ||
+      (!!ref.current && ref.current.contains(e?.target as Node)) ||
       ref.current?.isSameNode(e?.target as Node),
   );
 
