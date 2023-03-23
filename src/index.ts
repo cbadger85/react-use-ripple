@@ -129,7 +129,15 @@ export const useRipple = (
     };
 
     element.addEventListener('mousedown', ripple);
-    element.addEventListener('keydown', keyboardRipple);
+
+    function keyboardListener(event: KeyboardEvent) {
+      document.removeEventListener("keydown", keyboardListener);
+      keyboardRipple(event);
+      setTimeout(function() {
+        document.addEventListener('keydown', keyboardListener);
+      }, options?.animationLength || ANIMATION_LENGTH);
+    }
+    document.addEventListener('keydown', keyboardListener);
 
     return () => {
       element.removeEventListener('mousedown', ripple);
