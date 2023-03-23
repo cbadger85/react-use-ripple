@@ -136,6 +136,28 @@ describe('useRipple', () => {
     expect(ripple).toBeFalsy();
   });
 
+  it('should not show several ripples for a continuous enter press', () => {
+    const { container } = render(<TestComponent />);
+
+    fireEvent.keyDown(screen.getByText('Button'), { key: 'Enter' });
+    fireEvent.keyDown(screen.getByText('Button'), { key: 'Enter' });
+
+    const ripples = container.querySelectorAll('span');
+
+    expect(ripples.length).toBe(1);
+  });
+
+  it('should not show several ripples for a continuous spacebar press', () => {
+    const { container } = render(<TestComponent />);
+
+    fireEvent.keyDown(screen.getByText('Button'), { key: ' ' });
+    fireEvent.keyDown(screen.getByText('Button'), { key: ' ' });
+
+    const ripples = container.querySelectorAll('span');
+
+    expect(ripples.length).toBe(1);
+  });
+
   it('should remove the ripple and keyframe after the animation', async () => {
     const { container } = render(<TestComponent />);
 
