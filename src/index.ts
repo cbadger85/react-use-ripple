@@ -3,6 +3,9 @@ import { RefObject, useEffect } from 'react';
 const ANIMATION_LENGTH = 700;
 const RIPPLE_SIZE = 100;
 const RIPPLE_COLOR = 'rgba(0, 0, 0, 0.3)';
+const RIPPLE_CLASSNAME = 'ripple-effect';
+const KEY_ENTER = 'Enter';
+const KEY_SPACE = ' ';
 
 if (typeof document !== 'undefined') {
   const style = document.createElement('style');
@@ -79,7 +82,7 @@ const createRipple = (element: HTMLElement, options?: RippleOptions) => (
     : width / 2 - rippleSize / 2;
 
   const span = document.createElement('span');
-
+  span.className = RIPPLE_CLASSNAME;
   span.style.cssText = `
     top: ${positionTop}px;
     left: ${positionLeft}px;
@@ -123,22 +126,27 @@ export const useRipple = (
     const ripple = createRipple(element, options);
 
     const keyboardRipple = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        ripple();
-      }
+      const isAnElegibleKey = [KEY_ENTER, KEY_SPACE].includes(e.key);
+      const elementIsFocused = element === e.target;
+      const shouldRipple = isAnElegibleKey && elementIsFocused;
+
+      shouldRipple && ripple();
     };
 
     element.addEventListener('mousedown', ripple);
 
     function keyboardListener(event: KeyboardEvent) {
-      document.removeEventListener("keydown", keyboardListener);
-      keyboardRipple(event);
-      setTimeout(function() {
-        document.addEventListener('keydown', keyboardListener);
-      }, options?.animationLength || ANIMATION_LENGTH);
-    }
-    document.addEventListener('keydown', keyboardListener);
+      const targetElement = event?.target as HTMLElement;
+      const isThereARippleEffectRunning = !targetElement?.getElementsByClassName(
+        RIPPLE_CLASSNAME,
+      ).length;
 
+      if (isThereARippleEffectRunning) {
+        keyboardRipple(event);
+      }
+    }
+
+    document.addEventListener('keydown', keyboardListener);
     return () => {
       element.removeEventListener('mousedown', ripple);
       element.removeEventListener('keydown', keyboardRipple);
